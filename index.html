@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>San Valentin ✨🐱</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: url("gato.avif") no-repeat center center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Blur suave sobre el gato */
+body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(8px);
+    background: rgba(255,255,255,0.25);
+    z-index: 0;
+}
+
+/* TARJETA */
+#card {
+    position: relative;
+    z-index: 2;
+    padding: 50px;
+    border-radius: 35px;
+    text-align: center;
+    width: 380px;
+
+    background: linear-gradient(
+        135deg,
+        rgba(255, 220, 230, 0.95),
+        rgba(255, 245, 200, 0.95),
+        rgba(255, 255, 255, 0.95)
+    );
+
+    backdrop-filter: blur(12px);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.25);
+    animation: entrada 1.5s ease forwards;
+    opacity: 0;
+}
+
+@keyframes entrada {
+    from { opacity: 0; transform: translateY(50px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Título */
+#nombre {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    margin-bottom: 20px;
+    color: #ff5c7a;
+}
+
+/* Texto */
+#pregunta {
+    font-size: 18px;
+    color: #444;
+    min-height: 80px;
+    margin-top: 15px;
+}
+
+/* Botones */
+#contenedor {
+    position: relative;
+    height: 140px;
+    margin-top: 25px;
+}
+
+button {
+    padding: 14px 28px;
+    font-size: 18px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#si {
+    background: linear-gradient(45deg,#ff4d6d,#ff758f);
+    color: white;
+}
+
+#si:hover {
+    transform: scale(1.15);
+}
+
+#no {
+    background-color: #ddd;
+    position: absolute;
+}
+
+#mensaje {
+    margin-top: 20px;
+    color: #ff4d6d;
+    font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<div id="card">
+    <div id="nombre">Amiga de aventuras ✨🐱</div>
+    <div id="pregunta"></div>
+
+    <div id="contenedor">
+        <button id="si">SÍ 😄</button>
+        <button id="no">NO 😐</button>
+    </div>
+
+    <div id="mensaje"></div>
+</div>
+
+<script>
+const texto = "Tengo una pregunta rápida...\n\nOye… ¿quieres ser mi amiga este San Valentín? ✨🐱";
+const pregunta = document.getElementById("pregunta");
+
+let i = 0;
+function escribir() {
+    if (i < texto.length) {
+        pregunta.innerHTML += texto.charAt(i) === "\n" ? "<br><br>" : texto.charAt(i);
+        i++;
+        setTimeout(escribir, 40);
+    }
+}
+escribir();
+
+const botonNo = document.getElementById("no");
+const botonSi = document.getElementById("si");
+const mensaje = document.getElementById("mensaje");
+
+let intentos = 0;
+
+/* Botón NO escapando */
+botonNo.addEventListener("mouseover", () => {
+    intentos++;
+    botonNo.style.left = Math.random() * 220 + "px";
+    botonNo.style.top = Math.random() * 90 + "px";
+    mensaje.innerText = "Tu amigo necesita CAFE 😅✨";
+
+    if (intentos > 6) {
+        botonNo.style.display = "none";
+        mensaje.innerText = "Ya vi que no te resististe 😄";
+    }
+});
+
+/* Segunda pantalla */
+botonSi.addEventListener("click", () => {
+    document.body.innerHTML = `
+        <div class="final-screen">
+            <div class="final-content">
+                <h1 class="titulo-final">🎉 ¡TENEMOS AVENTURA! 🎉</h1>
+                <h3>Risas, planes y buenos momentos 😄✨</h3>
+                <div class="firma">✨ Atte. OTERO ✨</div>
+            </div>
+        </div>
+
+        <style>
+        .final-screen {
+            height:100vh;
+            background:url('gato3.jpg') center/cover no-repeat;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            text-align:center;
+        }
+
+        .final-content {
+            background:rgba(0,0,0,0.6);
+            padding:60px;
+            border-radius:30px;
+            backdrop-filter:blur(6px);
+            animation: aparecer 1.5s ease forwards;
+            opacity:0;
+            color:white;
+        }
+
+        /* COLORES EN MOVIMIENTO */
+        .titulo-final {
+            font-family:'Playfair Display', serif;
+            font-size:60px;
+            background: linear-gradient(90deg, #ff4d6d, #ffd700, #ff4d6d);
+            background-size:200%;
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            animation: brilloTexto 4s linear infinite;
+            margin-bottom:25px;
+        }
+
+        .firma {
+            margin-top:25px;
+            font-family:'Pacifico', cursive;
+            font-size:30px;
+            color:#ffd700;
+            animation: pulso 2s infinite alternate;
+        }
+
+        @keyframes brilloTexto {
+            0% { background-position:0%; }
+            100% { background-position:200%; }
+        }
+
+        @keyframes aparecer {
+            from { opacity:0; transform:translateY(40px); }
+            to { opacity:1; transform:translateY(0); }
+        }
+
+        @keyframes pulso {
+            from { transform:scale(1); }
+            to { transform:scale(1.08); }
+        }
+        </style>
+    `;
+});
+</script>
+
+</body>
+</html>
